@@ -10,7 +10,9 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem(ACCESS_TOKEN);
-    if (token) {
+    const isPublicRoute = config.url.includes("/api/user/register/") || config.url.includes("/api/token/");
+    
+    if (token && !isPublicRoute) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
